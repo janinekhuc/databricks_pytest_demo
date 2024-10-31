@@ -1,0 +1,21 @@
+# The main job for pytest_repo.
+resources:
+  jobs:
+    databricks_pytest_demo:
+      name: databricks_pytest_demo
+
+      tasks:
+        - task_key: notebook_task
+          # existing_cluster_id: xxx # for quick iterations you can also use an existing cluster id; 0502-065942-hkccpy6p
+          job_cluster_key: job_cluster
+          notebook_task:
+            notebook_path: ../notebooks/pytest_runner.py
+        
+      job_clusters:
+        - job_cluster_key: job_cluster
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_D3_v2
+            autoscale:
+                min_workers: 1
+                max_workers: 4
